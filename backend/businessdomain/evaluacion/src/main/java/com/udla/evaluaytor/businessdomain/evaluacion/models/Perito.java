@@ -2,6 +2,7 @@ package com.udla.evaluaytor.businessdomain.evaluacion.models;
 
 import lombok.Data;
 
+
 @Data
 public class Perito {
     private Long id;

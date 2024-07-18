@@ -17,7 +17,7 @@ import jakarta.persistence.ManyToMany;
 public class Proveedor extends Empresa {
 
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
         name = "proveedor_categoria",
         joinColumns = @JoinColumn(name = "id_proveedor"),

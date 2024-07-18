@@ -3,6 +3,7 @@ package com.udla.evaluaytor.businessdomain.empresa.services;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.udla.evaluaytor.businessdomain.empresa.dto.CategoriaDTO;
 import com.udla.evaluaytor.businessdomain.empresa.dto.ProveedorDTO;
 import com.udla.evaluaytor.businessdomain.empresa.dto.ProveedorResponseDTO;
@@ -10,10 +11,13 @@ import com.udla.evaluaytor.businessdomain.empresa.models.Categoria;
 import com.udla.evaluaytor.businessdomain.empresa.models.Proveedor;
 import com.udla.evaluaytor.businessdomain.empresa.repositories.CategoriaRepository;
 import com.udla.evaluaytor.businessdomain.empresa.repositories.ProveedorRepository;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+
 
 @Service
 public class ProveedorImpl implements ProveedorService {
@@ -58,24 +62,24 @@ public class ProveedorImpl implements ProveedorService {
      @Transactional
     public ProveedorResponseDTO updateProveedor(Long id, ProveedorDTO proveedorUpdateDTO) {
         Optional<Proveedor> optionalProveedor = proveedorRepository.findById(id);
-            
+
         if (!optionalProveedor.isPresent()) {
             throw new RuntimeException("Proveedor no encontrado con id " + id);
         }
-            
+
         Proveedor proveedor = optionalProveedor.get();
         proveedor.setNombre(proveedorUpdateDTO.getNombre());
         proveedor.setDireccion(proveedorUpdateDTO.getDireccion());
         proveedor.setTelefono(proveedorUpdateDTO.getTelefono());
-    
+
         List<Long> categoriaIds = proveedorUpdateDTO.getCategoriaIds();
         List<Categoria> categorias = categoriaRepository.findAllById(categoriaIds);
         proveedor.setCategorias(categorias);
-    
+
         Proveedor updatedProveedor = proveedorRepository.save(proveedor);
         return convertToDTO(updatedProveedor);
     }
-    
+
 
 
     private ProveedorResponseDTO convertToDTO(Proveedor proveedor) {
@@ -83,7 +87,6 @@ public class ProveedorImpl implements ProveedorService {
         dto.setId(proveedor.getId());
         dto.setNombre(proveedor.getNombre());
         dto.setDireccion(proveedor.getDireccion());
-        dto.setTelefono(proveedor.getTelefono());
 
         Set<CategoriaDTO> categoriasDTO = proveedor.getCategorias().stream()
                 .map(categoria -> {

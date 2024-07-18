@@ -1,14 +1,9 @@
 package com.udla.evaluaytor.businessdomain.evaluacion.models;
 
 import java.time.LocalDate;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Transient;
+import java.util.List;
+
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -22,20 +17,24 @@ public class FormularioEvaluacion {
     private LocalDate fecha;
     private Integer evaluacion;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "estado_formulario_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "id_estado_formulario")
     private EstadoFormulario estadoFormulario;
 
-    private Long proveedor_id;
-    private Long categoria_id;
-    private Long perito_id;
+    @OneToMany(mappedBy = "formularioEvaluacion", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FormularioEvaluacionDetalle> formularioEvaluacionDetalle;
+
+    private Long proveedorId;
+    private Long categoriaId;
+    private Long peritoId;
 
     @Transient
     private Proveedor proveedor;
 
     @Transient
-    private Perito Perito;
+    private Perito perito;
 
     @Transient
     private Categoria categoria;
 }
+

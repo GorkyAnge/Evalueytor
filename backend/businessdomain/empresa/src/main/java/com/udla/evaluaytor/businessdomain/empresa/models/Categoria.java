@@ -1,11 +1,8 @@
 package com.udla.evaluaytor.businessdomain.empresa.models;
 
 import java.util.List;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -21,4 +18,6 @@ public class Categoria {
     @ManyToMany(mappedBy = "categorias")
     private List<Proveedor> proveedores;
 
+    @OneToMany(mappedBy = "categoria")
+    private List<MatrizEvaluacion> matrizEvaluaciones;
 }
